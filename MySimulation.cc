@@ -4,10 +4,14 @@
 #include "MyPrimaryGeneratorAction.hh"
 #include "QGSP_BERT.hh"
 #include "MyEventAction.hh"
+#include "Randomize.hh"
+#include <ctime>
 
 int main() {
-  G4RunManager* runManager = new G4RunManager; // the default run manager
+  G4Random::setTheEngine(new CLHEP::RanecuEngine); // Use the Ranecu random number engine
+  G4Random::setTheSeed(static_cast<long>(time(nullptr)));
   
+  G4RunManager* runManager = new G4RunManager; // the default run manager
   runManager->SetUserInitialization(new MyDetectorConstruction()); // Detector construction
   runManager->SetUserInitialization(new QGSP_BERT); // Physics list
   runManager->SetUserAction(new MyPrimaryGeneratorAction()); // Primary generator action
