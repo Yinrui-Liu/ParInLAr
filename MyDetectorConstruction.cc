@@ -16,6 +16,7 @@ MyDetectorConstruction::~MyDetectorConstruction() {}
 G4VPhysicalVolume* MyDetectorConstruction::Construct() {
   G4NistManager* nist = G4NistManager::Instance();
   G4Material* liquidArgon = nist->FindOrBuildMaterial("G4_lAr");
+  //G4cout << "$$$ LAr properties:\n" <<*(G4Material::GetMaterial("G4_lAr")) << G4endl;
   
   // World volume
   G4double worldSize = 1.0 * m;

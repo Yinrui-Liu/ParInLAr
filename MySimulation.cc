@@ -6,6 +6,7 @@
 #include "MyEventAction.hh"
 #include "Randomize.hh"
 #include <ctime>
+#include "G4HadronicProcessStore.hh"
 
 int main() {
   G4Random::setTheEngine(new CLHEP::RanecuEngine); // Use the Ranecu random number engine
@@ -13,12 +14,15 @@ int main() {
   
   G4RunManager* runManager = new G4RunManager; // the default run manager
   runManager->SetUserInitialization(new MyDetectorConstruction()); // Detector construction
-  runManager->SetUserInitialization(new QGSP_BERT); // Physics list
+  auto physicsList = new QGSP_BERT();
+  G4HadronicProcessStore::Instance()->SetVerbose(0); // Hadron physics verbosity
+  runManager->SetUserInitialization(physicsList); // Physics list
   runManager->SetUserAction(new MyPrimaryGeneratorAction()); // Primary generator action
   runManager->SetUserAction(new MyEventAction()); // event action, what about run/step action
   runManager->Initialize();
   
   G4UImanager* UI = G4UImanager::GetUIpointer(); // Get the pointer to the User Interface manager
+  UI->ApplyCommand("/process/em/verbose 0"); // EM physics verbosity
   UI->ApplyCommand("/run/initialize");
   UI->ApplyCommand("/run/beamOn 1");
   
