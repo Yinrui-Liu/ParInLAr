@@ -10,7 +10,7 @@
 
 int main() {
   G4Random::setTheEngine(new CLHEP::RanecuEngine); // Use the Ranecu random number engine
-  G4Random::setTheSeed(static_cast<long>(time(nullptr)));
+  //G4Random::setTheSeed(static_cast<long>(time(nullptr)));
   
   G4RunManager* runManager = new G4RunManager; // the default run manager
   runManager->SetUserInitialization(new MyDetectorConstruction()); // Detector construction
@@ -24,7 +24,7 @@ int main() {
   G4UImanager* UI = G4UImanager::GetUIpointer(); // Get the pointer to the User Interface manager
   UI->ApplyCommand("/process/em/verbose 0"); // EM physics verbosity
   UI->ApplyCommand("/run/initialize");
-  UI->ApplyCommand("/run/beamOn 1");
+  UI->ApplyCommand("/run/beamOn 10");
   
   delete runManager;
   return 0;

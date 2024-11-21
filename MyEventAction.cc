@@ -5,13 +5,17 @@
 #include "G4THitsCollection.hh"
 
 MyEventAction::MyEventAction() {
-  G4cout << "\n$$$ Begin of event: " << G4endl;
   fOutputFile.open("output.txt", std::ios::out);
-  //fOutputFile << "X Y Z Energy Time\n";
 }
 
 MyEventAction::~MyEventAction() {
   fOutputFile.close();
+}
+
+void MyEventAction::BeginOfEventAction(const G4Event* event) {
+  G4int eventNb = event->GetEventID();
+  G4cout << "$$$ Begin of event " << eventNb << G4endl;
+  fOutputFile << "### X Y Z Energy Time\n";
 }
 
 void MyEventAction::EndOfEventAction(const G4Event* event) {

@@ -3,7 +3,19 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
 # Load the data
-arr = np.loadtxt("output.txt")
+first_event_data = []
+with open("output.txt", "r") as file:
+    in_event = False  # Flag to check if we're reading the first event
+    for line in file:
+        line = line.strip()
+        if line.startswith("###"):  # Detect event header
+            if in_event:  # If we have already read one event, stop
+                break
+            in_event = True  # Start reading the first event
+        elif in_event:  # Read data lines for the first event
+            first_event_data.append([float(x) for x in line.split()])
+#arr = np.loadtxt("output.txt")
+arr = np.array(first_event_data)
 x = arr[:, 0]
 y = arr[:, 1]
 z = arr[:, 2]
